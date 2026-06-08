@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}{{ plant.title }} — Growth Garden{% endblock %}
+{% block description %}{{ plant.description|truncate(150) }}{% endblock %}
+
+{% block content %}
+  <div class="page-head" style="margin-bottom: var(--space-5);">
+    <a class="btn btn--ghost" href="{{ url_for('dashboard') }}">← Back to garden</a>
+  </div>
+
+  <!-- Section 1: Plant overview -->
+  <div class="card">
+    <div class="detail-head">
+      <div class="detail-emoji" aria-hidden="true">{{ plant.growth_emoji }}</div>
+      <div class="detail-head__main">
+        <span class="bed-tag">{{ plant.garden_bed.emoji }} {{ plant.garden_bed.name }}</span>
+        <h1 style="margin: var(--space-2) 0 var(--space-2);">{{ plant.title }}</h1>
+        <p class="muted">{{ plant.description }}</p>
+        <p class="tiny muted" style="margin:0;">
+          Planted {{ plant.created_at|niceday }} ·
+          Current stage: <strong>{{ plant.growth_stage }} {{ plant.growth_emoji }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="btn-row" style="margin-top: var(--space-5);">
+      <a class="btn btn--primary" href="{{ url_for('add_update', plant_id=plant.id) }}">💧 Add update</a>
+      <a class="btn btn--secondary" href="{{ url_for('upload_photo', plant_id=plant.id) }}">📷 Upload photo</a>
+      <button type="button" class="btn btn--danger" data-open-delete>Delete plant</button>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: var(--space-5);">
+    <!-- Section 3: Activity timeline -->
+    <div class="card">
+      <div class="section-title">
+        <h2>Activity timeline</h2>
+        <a class="btn btn--ghost btn--sm" href="{{ url_for('add_update', plant_id=plant.id) }}">＋ Update</a>
+      </div>
+
+      {% if timeline %}
+        <ul class="timeline">
+          {% for e in timeline %}
+            <li class="tl-item">
+              <span class="tl-dot" aria-hidden="true">
+                {%- if e.type == 'created' -%}🌱
+                {%- elif e.type == 'update' -%}💧
+                {%- else -%}📷{%- endif -%}
+              </span>
+              <div class="tl-when">{{ e.when|nicedatetime }}</div>
+              <div class="tl-title">{{ e.title }}</div>
+              {% if e.body %}<p class="tl-body">{{ e.body }}</p>{% endif %}
+              {% if e.type == 'photo' %}
+                <img class="tl-thumb"
+                     src="{{ url_for('static', filename=e.image_path) }}"
+                     data-zoom="{{ url_for('static', filename=e.image_path) }}"
+                     alt="{{ e.body or 'Photo memory' }}">
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="empty empty--inline">
+          <span class="empty__emoji">💧</span>
+          <p class="muted" style="margin:0;">No updates yet. Water this plant to help it grow.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Section 2: Growth statistics -->
+    <aside class="card">
+      <h2 style="font-size:1.25rem;">Growth statistics</h2>
+
+      <p class="tiny muted" style="margin-bottom: var(--space-2);">
+        Progress toward Mature Tree 🌲
+      </p>
+      <div class="progress" role="progressbar"
+           aria-valuenow="{{ plant.growth_progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress__bar" style="width: {{ plant.growth_progress }}%;"></div>
+      </div>
+      <p class="tiny muted" style="margin-top: var(--space-2);">
+        {% if plant.is_fully_grown %}
+          Fully grown — keep tending it to keep the story going.
+        {% else %}
+          {{ 8 - plant.update_count }} more update{{ '' if (8 - plant.update_count) == 1 else 's' }} to reach full growth.
+        {% endif %}
+      </p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric__value">{{ plant.update_count }}</div>
+          <div class="metric__label">Updates</div>
+        </div>
+        <div class="metric">
+          <div class="metric__value">{{ plant.photo_count }}</div>
+          <div class="metric__label">Photos</div>
+        </div>
+      </div>
+
+      <p class="tiny muted" style="margin-top: var(--space-4); margin-bottom:0;">
+        Growth stages: 🌱 Seedling · 🌿 Sprout (1–3) · 🌳 Young Tree (4–7) · 🌲 Mature Tree (8+).
+        Only written updates affect growth.
+      </p>
+    </aside>
+  </div>
+
+  <!-- Section 4: Photo memory gallery -->
+  <div class="card" style="margin-top: var(--space-5);">
+    <div class="section-title">
+      <h2>Photo memories</h2>
+      <a class="btn btn--ghost btn--sm" href="{{ url_for('upload_photo', plant_id=plant.id) }}">＋ Photo</a>
+    </div>
+
+    {% if plant.photos %}
+      <div class="gallery">
+        {% for photo in plant.photos %}
+          <figure>
+            <img src="{{ url_for('static', filename=photo.image_path) }}"
+                 data-zoom="{{ url_for('static', filename=photo.image_path) }}"
+                 alt="{{ photo.caption or 'Photo memory' }}"
+                 loading="lazy">
+            {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty empty--inline">
+        <span class="empty__emoji">🖼</span>
+        <p class="muted" style="margin:0 0 16px;">No photo memories added yet.</p>
+        <a class="btn btn--secondary btn--sm" href="{{ url_for('upload_photo', plant_id=plant.id) }}">Upload a photo</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div class="modal" id="delete-modal" aria-hidden="true">
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="del-title">
+      <h3 id="del-title">Delete “{{ plant.title }}”?</h3>
+      <p class="muted">This permanently removes the plant along with its
+        {{ plant.update_count }} update{{ '' if plant.update_count == 1 else 's' }} and
+        {{ plant.photo_count }} photo memor{{ 'y' if plant.photo_count == 1 else 'ies' }}.
+        This cannot be undone.</p>
+      <form method="post" action="{{ url_for('delete_plant', plant_id=plant.id) }}">
+        {{ update_form.csrf_token }}
+        <div class="modal__actions">
+          <button type="button" class="btn btn--secondary" data-cancel-delete>Cancel</button>
+          <button type="submit" class="btn btn--danger">Delete plant</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

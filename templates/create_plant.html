@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Plant something new — Growth Garden{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">New plant</span>
+      <h1>Plant something new</h1>
+      <p class="muted">Give it a name, choose where it belongs, and start its journey.</p>
+    </div>
+    <a class="btn btn--ghost" href="{{ url_for('dashboard') }}">← Back to garden</a>
+  </div>
+
+  <div class="card form">
+    <form method="post" novalidate data-pending="Planting…">
+      {{ form.hidden_tag() }}
+
+      <div class="field">
+        {{ form.title.label }}
+        {{ form.title(maxlength="100", id="plant-title", placeholder="e.g. Learn watercolor painting") }}
+        <div class="char-count" data-count-for="plant-title"></div>
+        {% for err in form.title.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+
+      <div class="field">
+        {{ form.description.label }}
+        <p class="hint">What is this plant about, and why does it matter to you?</p>
+        {{ form.description(placeholder="A sentence or two about what you're growing…") }}
+        {% for err in form.description.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+
+      <div class="field">
+        {{ form.garden_bed_id.label }}
+        <p class="hint">Pick the bed that fits best — Goals, Projects, Habits, or Memories.</p>
+        {{ form.garden_bed_id() }}
+        {% for err in form.garden_bed_id.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary" data-pending="Planting…">🌱 Plant it</button>
+        <a class="btn btn--secondary" href="{{ url_for('dashboard') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

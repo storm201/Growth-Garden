@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Add update — {{ plant.title }}{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">{{ plant.growth_emoji }} {{ plant.title }}</span>
+      <h1>Add an update</h1>
+      <p class="muted">Each update waters your plant. Enough of them and it grows to the next stage.</p>
+    </div>
+    <a class="btn btn--ghost" href="{{ url_for('plant_detail', plant_id=plant.id) }}">← Back to plant</a>
+  </div>
+
+  <div class="card form">
+    <form method="post" novalidate data-pending="Watering…">
+      {{ form.hidden_tag() }}
+      <div class="field">
+        {{ form.content.label }}
+        <p class="hint">What progress did you make, or what's on your mind?</p>
+        {{ form.content(placeholder="Today I…") }}
+        {% for err in form.content.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary" data-pending="Watering…">💧 Water the plant</button>
+        <a class="btn btn--secondary" href="{{ url_for('plant_detail', plant_id=plant.id) }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

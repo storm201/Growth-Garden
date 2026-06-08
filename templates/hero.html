@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Growth Garden — grow your goals, habits, projects & memories</title>
+  <meta name="description" content="Growth Garden turns personal progress into a living garden. Plant your goals, projects, habits, and memories, then watch them grow with every update you add.">
+  <meta name="theme-color" content="#2f5d3f">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Growth Garden">
+  <meta property="og:title" content="Growth Garden — a living garden for your personal growth">
+  <meta property="og:description" content="Plant your goals, projects, habits, and memories, then watch them grow with every update.">
+  <meta property="og:image" content="{{ url_for('static', filename='og-image.png') }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ url_for('static', filename='og-image.png') }}">
+
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hero.css') }}">
+</head>
+<body class="hero-page">
+
+  <!-- Loader count-up -->
+  <div class="hero-loader" id="hero-loader">
+    <div class="hero-loader__num" data-count>0<span>%</span></div>
+  </div>
+
+  <!-- Wind / leaves layer -->
+  <div class="wind-layer" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <nav class="hero-nav">
+    <a class="hero-nav__brand" href="{{ url_for('home') }}">
+      <span>🌿</span> Growth Garden
+    </a>
+    <div class="hero-nav__links">
+      <a href="{{ url_for('dashboard') }}">Garden</a>
+      <a href="{{ url_for('create_plant') }}">New plant</a>
+      <a class="hero-nav__cta" href="{{ url_for('dashboard') }}">Enter →</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="hero__eyebrow">A living garden for your progress</span>
+
+    <h1 class="hero__title">
+      <span class="line">
+        <span class="word-sway"><span class="wind-word">Plant</span></span>
+        <span class="word-sway"><span class="wind-word">what</span></span>
+      </span>
+      <span class="line">
+        <span class="word-sway"><span class="wind-word">matters,</span></span>
+      </span>
+      <span class="line">
+        <span class="word-sway"><span class="wind-word accent">watch</span></span>
+        <span class="word-sway"><span class="wind-word">it</span></span>
+        <span class="word-sway"><span class="wind-word">grow.</span></span>
+      </span>
+    </h1>
+
+    <p class="hero__lead">
+      Growth Garden turns goals, projects, habits, and memories into living plants.
+      Every update you write is a little water — and your garden grows from
+      seedling to mature tree over time.
+    </p>
+
+    <div class="hero__actions">
+      <a class="hero-btn hero-btn--primary" href="{{ url_for('dashboard') }}">Enter your garden 🌱</a>
+      <a class="hero-btn hero-btn--ghost" href="{{ url_for('create_plant') }}">Plant your first seed</a>
+    </div>
+
+    <div class="hero__stats">
+      <div class="hero__stat"><div class="n">{{ stats.plants }}</div><div class="l">Plants growing</div></div>
+      <div class="hero__stat"><div class="n">{{ stats.updates }}</div><div class="l">Updates written</div></div>
+      <div class="hero__stat"><div class="n">{{ stats.photos }}</div><div class="l">Photo memories</div></div>
+      <div class="hero__stat"><div class="n">{{ stats.fully_grown }}</div><div class="l">Fully grown 🌲</div></div>
+    </div>
+  </header>
+
+  <script src="{{ url_for('static', filename='js/hero.js') }}"></script>
+</body>
+</html>

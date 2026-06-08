@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Upload photo — {{ plant.title }}{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">{{ plant.growth_emoji }} {{ plant.title }}</span>
+      <h1>Upload a photo memory</h1>
+      <p class="muted">Attach a visual moment to this plant. Photos don't change growth — they tell the story.</p>
+    </div>
+    <a class="btn btn--ghost" href="{{ url_for('plant_detail', plant_id=plant.id) }}">← Back to plant</a>
+  </div>
+
+  <div class="card form">
+    <form method="post" enctype="multipart/form-data" novalidate data-pending="Uploading…">
+      {{ form.hidden_tag() }}
+      <div class="field">
+        {{ form.image.label }}
+        <p class="hint">Supported formats: JPG, JPEG, PNG, WEBP (max 8 MB).</p>
+        {{ form.image(accept=".jpg,.jpeg,.png,.webp") }}
+        {% for err in form.image.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+      <div class="field">
+        {{ form.caption.label }}
+        <p class="hint">Optional — a short note about this moment.</p>
+        {{ form.caption(maxlength="255", placeholder="e.g. First finished sketch") }}
+        {% for err in form.caption.errors %}<div class="error">{{ err }}</div>{% endfor %}
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary" data-pending="Uploading…">📷 Add photo memory</button>
+        <a class="btn btn--secondary" href="{{ url_for('plant_detail', plant_id=plant.id) }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

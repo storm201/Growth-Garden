@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Your Garden — Growth Garden{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">Your garden</span>
+      <h1>Tend what matters, watch it grow</h1>
+      <p class="muted">Every goal, project, habit, and memory lives here as a plant.
+        Add updates to help each one grow from a seedling into a mature tree.</p>
+    </div>
+    <a class="btn btn--primary" href="{{ url_for('create_plant') }}">＋ Plant something new</a>
+  </div>
+
+  <!-- Statistics -->
+  <section class="stats" aria-label="Garden statistics">
+    <div class="stat">
+      <div class="stat__value">{{ stats.plants }}</div>
+      <div class="stat__label">Total plants</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value">{{ stats.updates }}</div>
+      <div class="stat__label">Updates written</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value">{{ stats.photos }}</div>
+      <div class="stat__label">Photo memories</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value">{{ stats.fully_grown }}</div>
+      <div class="stat__label">Fully grown 🌲</div>
+    </div>
+  </section>
+
+  {% if stats.plants == 0 %}
+    <div class="empty">
+      <span class="empty__emoji">🌱</span>
+      <h2>Your garden is empty. Plant your first seed.</h2>
+      <p class="muted">Choose a garden bed, give your plant a name, and start tracking your journey.</p>
+      <a class="btn btn--primary" href="{{ url_for('create_plant') }}">Plant your first seed</a>
+    </div>
+  {% else %}
+    <!-- Garden beds, each its own area -->
+    {% for bed in beds %}
+      <section class="bed" id="bed-{{ bed.id }}">
+        <div class="bed__head">
+          <div class="bed__title">
+            <span class="bed__emoji">{{ bed.emoji }}</span>
+            <div>
+              <h2>{{ bed.name }}</h2>
+              <p class="bed__desc muted">{{ bed.description }}</p>
+            </div>
+          </div>
+          <span class="bed__count">{{ bed.plants|length }} plant{{ '' if bed.plants|length == 1 else 's' }}</span>
+        </div>
+
+        {% if bed.plants %}
+          <div class="plant-grid">
+            {% for plant in bed.plants %}
+              {% include "_plant_card.html" %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty empty--inline">
+            <span class="empty__emoji">{{ bed.emoji }}</span>
+            <p class="muted" style="margin:0 0 16px;">No plants in this garden bed yet.</p>
+            <a class="btn btn--secondary btn--sm" href="{{ url_for('create_plant', bed=bed.id) }}">Add a plant to {{ bed.name }}</a>
+          </div>
+        {% endif %}
+      </section>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

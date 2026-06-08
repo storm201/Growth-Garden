@@ -1,0 +1,19 @@
+<article class="plant-card">
+  <div class="plant-card__top">
+    <div class="plant-card__emoji" aria-hidden="true">{{ plant.growth_emoji }}</div>
+    <div>
+      <h3 class="plant-card__title">{{ plant.title }}</h3>
+      <span class="plant-card__stage">{{ plant.growth_stage }}</span>
+    </div>
+  </div>
+
+  <div class="plant-card__meta">
+    <span title="Updates">💧 {{ plant.update_count }} update{{ '' if plant.update_count == 1 else 's' }}</span>
+    <span title="Photo memories">🖼 {{ plant.photo_count }} photo{{ '' if plant.photo_count == 1 else 's' }}</span>
+  </div>
+
+  <div class="plant-card__foot">
+    <span class="plant-card__date">Planted {{ plant.created_at|niceday }}</span>
+    <a class="btn btn--secondary btn--sm" href="{{ url_for('plant_detail', plant_id=plant.id) }}">View</a>
+  </div>
+</article>
