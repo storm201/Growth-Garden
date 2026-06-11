@@ -371,4 +371,4 @@ When documenting UI features, include:
 
 ---
 
-**For task-specific documentation**, refer to [TASK_DOCUMENTATION_GUIDE.md](TASK_DOCUMENTATION_GUIDE.md) and create individual DOCX/PDF files for each task using the provided template.
+
