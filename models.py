@@ -114,6 +114,38 @@ class Plant(db.Model):
         """Percentage toward 'Mature Tree' (8 updates), capped at 100."""
         return min(100, round(self.update_count / 8 * 100))
 
+    @property
+    def stage_slug(self) -> str:
+        """Return canonical slug: seedling, sprout, young, or mature."""
+        if self.update_count >= 8:
+            return "mature"
+        if self.update_count >= 4:
+            return "young"
+        if self.update_count >= 1:
+            return "sprout"
+        return "seedling"
+
+    @property
+    def stage_image_path(self) -> str:
+        """Static path for the photographic growth stage asset."""
+        return f"img/plants/plant-{self.stage_slug}.webp"
+
+    @property
+    def next_stage_info(self):
+        """Return (needed_count, next_stage_name) or None if fully grown."""
+        if self.update_count < 1:
+            return 1 - self.update_count, "Sprout", "🌿"
+        if self.update_count < 4:
+            return 4 - self.update_count, "Young Tree", "🌳"
+        if self.update_count < 8:
+            return 8 - self.update_count, "Mature Tree", "🌲"
+        return 0, "Flourishing", "✨"
+
+    @property
+    def age_days(self) -> int:
+        """Number of days since planted."""
+        return max(0, (datetime.utcnow() - self.created_at).days)
+
     def timeline(self):
         """Combined, newest-first timeline of all activity for this plant."""
         events = [

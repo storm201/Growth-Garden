@@ -3,149 +3,304 @@
 {% block description %}{{ plant.description|truncate(150) }}{% endblock %}
 
 {% block content %}
-  <div class="page-head" style="margin-bottom: var(--space-5);">
-    <a class="btn btn--ghost" href="{{ url_for('dashboard') }}">← Back to garden</a>
-  </div>
+<div class="greenhouse-page" data-plant-id="{{ plant.id }}" data-update-count="{{ plant.update_count }}" data-stage-slug="{{ plant.stage_slug }}">
 
-  <!-- Section 1: Plant overview -->
-  <div class="card">
-    <div class="detail-head">
-      <div class="detail-emoji" aria-hidden="true">{{ plant.growth_emoji }}</div>
-      <div class="detail-head__main">
-        <span class="bed-tag">{{ plant.garden_bed.emoji }} {{ plant.garden_bed.name }}</span>
-        <h1 style="margin: var(--space-2) 0 var(--space-2);">{{ plant.title }}</h1>
-        <p class="muted">{{ plant.description }}</p>
-        <p class="tiny muted" style="margin:0;">
-          Planted {{ plant.created_at|niceday }} ·
-          Current stage: <strong>{{ plant.growth_stage }} {{ plant.growth_emoji }}</strong>
-        </p>
+  <!-- Top Greenhouse Navigation Bar -->
+  <nav class="greenhouse-nav" aria-label="Plant navigation">
+    <a class="nav-back-link" href="{{ url_for('dashboard') }}">
+      <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>Garden Bed</span>
+    </a>
+    <div class="nav-meta-tags">
+      <span class="bed-pill-tag">{{ plant.garden_bed.emoji }} {{ plant.garden_bed.name }}</span>
+      <span class="nav-meta-item">Planted {{ plant.created_at|niceday }}</span>
+      <span class="nav-meta-dot" aria-hidden="true">•</span>
+      <span class="nav-meta-item">
+        {% if plant.age_days == 0 %}
+          Planted today
+        {% elif plant.age_days == 1 %}
+          1 day rooted
+        {% else %}
+          {{ plant.age_days }} days rooted
+        {% endif %}
+      </span>
+    </div>
+  </nav>
+
+  <!-- ================= MAIN GREENHOUSE COMPOSITION ================= -->
+  <div class="greenhouse-layout">
+
+    <!-- LEFT / HERO: THE LIVING CENTERPIECE -->
+    <div class="greenhouse-centerpiece">
+
+      <!-- The Real Botanical Environment -->
+      <div class="botanical-scene" id="botanical-scene" aria-label="Living plant botanical scene">
+        <!-- Soft natural sunlight shaft & window foliage shadow -->
+        <div class="sunlight-shaft" aria-hidden="true">
+          <div class="shaft-beam beam-1"></div>
+          <div class="shaft-beam beam-2"></div>
+        </div>
+        <div class="window-shadow-overlay" aria-hidden="true"></div>
+
+        <!-- Atmospheric ambient pollen/dust particles -->
+        <div class="scene-dust-motes" id="scene-dust-motes" aria-hidden="true"></div>
+
+        <!-- Realistic Living Plant Viewport -->
+        <div class="living-plant-stage" id="living-plant-stage">
+          <div class="plant-image-container" id="plant-img-container">
+            <img class="living-plant-img"
+                 id="living-plant-image"
+                 src="{{ url_for('static', filename=plant.stage_image_path) }}"
+                 alt="{{ plant.title }} in {{ plant.growth_stage }} stage"
+                 data-current-stage="{{ plant.stage_slug }}"
+                 data-updates="{{ plant.update_count }}"
+                 data-seedling-src="{{ url_for('static', filename='img/plants/plant-seedling.webp') }}"
+                 data-sprout-src="{{ url_for('static', filename='img/plants/plant-sprout.webp') }}"
+                 data-young-src="{{ url_for('static', filename='img/plants/plant-young.webp') }}"
+                 data-mature-src="{{ url_for('static', filename='img/plants/plant-mature.webp') }}"
+                 loading="eager" />
+
+            <!-- Secondary image layer for smooth cross-fade during growth replay -->
+            <img class="living-plant-img plant-img-fade"
+                 id="living-plant-fade-image"
+                 src="{{ url_for('static', filename=plant.stage_image_path) }}"
+                 alt=""
+                 aria-hidden="true" />
+          </div>
+
+          <!-- Live Floating Stage Badge -->
+          <div class="floating-stage-badge" id="floating-stage-badge">
+            <span class="stage-badge-icon" id="stage-badge-icon">{{ plant.growth_emoji }}</span>
+            <div class="stage-badge-text">
+              <span class="stage-badge-label">Growth Stage</span>
+              <strong class="stage-badge-title" id="stage-badge-title">{{ plant.growth_stage }}</strong>
+            </div>
+            <span class="stage-badge-progress" id="stage-badge-progress">{{ plant.growth_progress }}%</span>
+          </div>
+
+          <!-- Watering Droplets Overlay FX -->
+          <div class="watering-fx-container" id="watering-fx" aria-hidden="true"></div>
+
+          <!-- Time-Lapse Mode HUD (appears during "Watch It Grow") -->
+          <div class="timelapse-hud" id="timelapse-hud" aria-hidden="true">
+            <div class="timelapse-bar">
+              <span class="timelapse-pulse"></span>
+              <span class="timelapse-text" id="timelapse-status">Replaying Growth Journey…</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Natural Wooden Table Edge Contact Surface -->
+        <div class="wooden-sill-edge" aria-hidden="true">
+          <div class="sill-plank"></div>
+          <div class="sill-ambient-shadow"></div>
+        </div>
       </div>
+
+      <!-- Centerpiece Botanical Actions & Controls -->
+      <div class="centerpiece-actions">
+        <!-- Primary Action: Water / Add Update -->
+        <a class="btn-water-primary" id="water-plant-btn" href="{{ url_for('add_update', plant_id=plant.id) }}">
+          <span class="btn-water-icon">💧</span>
+          <span class="btn-water-text">
+            <strong>Water & Add Update</strong>
+            <small>Nourish growth with today’s progress</small>
+          </span>
+        </a>
+
+        <!-- Secondary Botanical Actions -->
+        <div class="centerpiece-subactions">
+          <button type="button" class="btn-subaction" id="replay-growth-btn" title="Watch this plant grow from seedling to current stage">
+            <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+            <span>Watch it grow</span>
+          </button>
+          <a class="btn-subaction" href="{{ url_for('upload_photo', plant_id=plant.id) }}" title="Attach a photo memory to this plant">
+            <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Add photo</span>
+          </a>
+          <button type="button" class="btn-subaction btn-subaction--danger" data-open-delete title="Remove plant from garden">
+            <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span>Delete</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <div class="btn-row" style="margin-top: var(--space-5);">
-      <a class="btn btn--primary" href="{{ url_for('add_update', plant_id=plant.id) }}">💧 Add update</a>
-      <a class="btn btn--secondary" href="{{ url_for('upload_photo', plant_id=plant.id) }}">📷 Upload photo</a>
-      <button type="button" class="btn btn--danger" data-open-delete>Delete plant</button>
-    </div>
-  </div>
+    <!-- RIGHT / ORBIT: EDITORIAL INFORMATION & LIVING OBSERVATIONS -->
+    <div class="greenhouse-orbit">
 
-  <div class="grid-2" style="margin-top: var(--space-5);">
-    <!-- Section 3: Activity timeline -->
-    <div class="card">
-      <div class="section-title">
-        <h2>Activity timeline</h2>
-        <a class="btn btn--ghost btn--sm" href="{{ url_for('add_update', plant_id=plant.id) }}">＋ Update</a>
-      </div>
+      <!-- Plant Title & Naturalist Journal Entry -->
+      <section class="botanical-identity-card" aria-label="Plant identity">
+        <div class="identity-header">
+          <span class="botanical-taxonomy">Specimen · {{ plant.garden_bed.name }}</span>
+          <h1 class="botanical-title">{{ plant.title }}</h1>
+        </div>
+        {% if plant.description %}
+          <div class="botanical-notes">
+            <p class="botanical-description">{{ plant.description }}</p>
+          </div>
+        {% endif %}
+      </section>
 
-      {% if timeline %}
-        <ul class="timeline">
+      <!-- Living Botanical Observations & Progress Meter -->
+      <section class="botanical-observation-node" aria-label="Botanical observations">
+        <div class="obs-header">
+          <span class="obs-tag">Growth Observation</span>
+          <span class="obs-stage-text">
+            <strong>{{ plant.growth_stage }}</strong> ({{ plant.growth_progress }}% mature)
+          </span>
+        </div>
+
+        <!-- 8-Stage Leaf Node Tracker -->
+        <div class="growth-ring-meter" aria-label="8-stage growth meter">
+          <div class="ring-nodes">
+            {% for i in range(8) %}
+              <div class="ring-node {% if i < plant.update_count %}ring-node--active{% elif i == plant.update_count %}ring-node--next{% endif %}"
+                   title="Update {{ i + 1 }} {% if i < plant.update_count %}✓ Nurtured{% elif i == plant.update_count %}← Next watering target{% endif %}">
+                <span class="node-dot"></span>
+                <span class="node-num">{{ i + 1 }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Living Narrative Observation -->
+        <div class="obs-narrative">
+          {% if plant.is_fully_grown %}
+            <p class="narrative-text">
+              🌲 <strong>Flourishing & fully grown.</strong> You have nurtured this plant through <strong>{{ plant.update_count }}</strong> growth moments. It stands tall in your garden.
+            </p>
+          {% else %}
+            <p class="narrative-text">
+              🌿 <strong>{{ plant.update_count }}</strong> growth moment{{ '' if plant.update_count == 1 else 's' }} recorded.
+              <span><strong>{{ plant.next_stage_info[0] }}</strong> more update{{ '' if plant.next_stage_info[0] == 1 else 's' }} needed to reach <strong>{{ plant.next_stage_info[1] }}</strong> {{ plant.next_stage_info[2] }}.</span>
+            </p>
+          {% endif %}
+        </div>
+
+        <!-- Vitality Metrics Grid -->
+        <div class="vitality-metrics">
+          <div class="vitality-item">
+            <span class="vitality-label">Waterings</span>
+            <strong class="vitality-val">{{ plant.update_count }}</strong>
+          </div>
+          <div class="vitality-item">
+            <span class="vitality-label">Photo Memories</span>
+            <strong class="vitality-val">{{ plant.photo_count }}</strong>
+          </div>
+          <div class="vitality-item">
+            <span class="vitality-label">Garden Vitality</span>
+            <strong class="vitality-val vitality-val--green">Thriving ☀️</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botanical Vine Timeline: Moments That Shaped This Plant -->
+      <section class="botanical-timeline-node" aria-label="Plant timeline">
+        <div class="timeline-head">
+          <div class="timeline-title-wrap">
+            <span class="timeline-vine-icon">🌱</span>
+            <h2 class="timeline-section-title">Life Moments & Updates</h2>
+          </div>
+          <a class="timeline-add-link" href="{{ url_for('add_update', plant_id=plant.id) }}">+ Add Update</a>
+        </div>
+
+        <ul class="botanical-vine-list">
           {% for e in timeline %}
-            <li class="tl-item">
-              <span class="tl-dot" aria-hidden="true">
-                {%- if e.type == 'created' -%}🌱
-                {%- elif e.type == 'update' -%}💧
-                {%- else -%}📷{%- endif -%}
-              </span>
-              <div class="tl-when">{{ e.when|nicedatetime }}</div>
-              <div class="tl-title">{{ e.title }}</div>
-              {% if e.body %}<p class="tl-body">{{ e.body }}</p>{% endif %}
-              {% if e.type == 'photo' %}
-                <img class="tl-thumb"
-                     src="{{ url_for('static', filename=e.image_path) }}"
-                     data-zoom="{{ url_for('static', filename=e.image_path) }}"
-                     alt="{{ e.body or 'Photo memory' }}">
-              {% endif %}
+            <li class="vine-event-item vine-event--{{ e.type }}">
+              <!-- Vine stem node marker -->
+              <div class="vine-node-marker" aria-hidden="true">
+                {% if e.type == 'created' %}
+                  <span class="vine-node-icon">🌱</span>
+                {% elif e.type == 'photo' %}
+                  <span class="vine-node-icon">📸</span>
+                {% else %}
+                  <span class="vine-node-icon">💧</span>
+                {% endif %}
+              </div>
+
+              <!-- Event content card -->
+              <div class="vine-event-content">
+                <div class="event-meta-line">
+                  <span class="event-type-badge">{{ e.title }}</span>
+                  <time class="event-timestamp">{{ e.when|nicedatetime }}</time>
+                </div>
+
+                {% if e.body %}
+                  <p class="event-body-text">{{ e.body }}</p>
+                {% endif %}
+
+                {% if e.image_path %}
+                  <div class="event-photo-preview">
+                    <img src="{{ url_for('static', filename=e.image_path) }}"
+                         alt="{{ e.body or 'Photo memory' }}"
+                         data-zoom="{{ url_for('static', filename=e.image_path) }}"
+                         loading="lazy" />
+                  </div>
+                {% endif %}
+              </div>
             </li>
           {% endfor %}
         </ul>
-      {% else %}
-        <div class="empty empty--inline">
-          <span class="empty__emoji">💧</span>
-          <p class="muted" style="margin:0;">No updates yet. Water this plant to help it grow.</p>
+      </section>
+
+      <!-- Botanical Scrapbook Photo Memories -->
+      <section class="botanical-scrapbook-node" aria-label="Photo memories">
+        <div class="scrapbook-header">
+          <div class="scrapbook-title-wrap">
+            <span class="scrapbook-icon">📸</span>
+            <h2 class="scrapbook-section-title">Field Memories & Prints</h2>
+          </div>
+          <a class="scrapbook-add-btn" href="{{ url_for('upload_photo', plant_id=plant.id) }}">+ Add Photo</a>
         </div>
-      {% endif %}
-    </div>
 
-    <!-- Section 2: Growth statistics -->
-    <aside class="card">
-      <h2 style="font-size:1.25rem;">Growth statistics</h2>
-
-      <p class="tiny muted" style="margin-bottom: var(--space-2);">
-        Progress toward Mature Tree 🌲
-      </p>
-      <div class="progress" role="progressbar"
-           aria-valuenow="{{ plant.growth_progress }}" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress__bar" style="width: {{ plant.growth_progress }}%;"></div>
-      </div>
-      <p class="tiny muted" style="margin-top: var(--space-2);">
-        {% if plant.is_fully_grown %}
-          Fully grown — keep tending it to keep the story going.
+        {% if plant.photos %}
+          <div class="scrapbook-polaroid-grid">
+            {% for photo in plant.photos %}
+              <figure class="polaroid-frame" style="--rotation: {{ [-2.2, 1.8, -1.2, 2.4, -1.8, 1.4][loop.index0 % 6] }}deg;">
+                <div class="washi-tape" aria-hidden="true"></div>
+                <img class="polaroid-photo"
+                     src="{{ url_for('static', filename=photo.image_path) }}"
+                     alt="{{ photo.caption or 'Photo memory' }}"
+                     data-zoom="{{ url_for('static', filename=photo.image_path) }}"
+                     loading="lazy" />
+                {% if photo.caption %}
+                  <figcaption class="polaroid-caption">{{ photo.caption }}</figcaption>
+                {% else %}
+                  <figcaption class="polaroid-caption polaroid-caption--muted">{{ photo.uploaded_at|niceday }}</figcaption>
+                {% endif %}
+              </figure>
+            {% endfor %}
+          </div>
         {% else %}
-          {{ 8 - plant.update_count }} more update{{ '' if (8 - plant.update_count) == 1 else 's' }} to reach full growth.
+          <!-- Thoughtful botanical scrapbook empty state -->
+          <div class="scrapbook-empty-canvas">
+            <div class="empty-polaroid-sketch">
+              <span class="empty-camera-emoji">📷</span>
+              <p class="empty-scrapbook-text">No photo memories pinned yet.<br><small class="muted">Attach visual milestones from your journey to this plant.</small></p>
+              <a class="btn btn--secondary btn--sm" href="{{ url_for('upload_photo', plant_id=plant.id) }}">Attach first photo</a>
+            </div>
+          </div>
         {% endif %}
-      </p>
+      </section>
 
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric__value">{{ plant.update_count }}</div>
-          <div class="metric__label">Updates</div>
-        </div>
-        <div class="metric">
-          <div class="metric__value">{{ plant.photo_count }}</div>
-          <div class="metric__label">Photos</div>
-        </div>
-      </div>
-
-      <p class="tiny muted" style="margin-top: var(--space-4); margin-bottom:0;">
-        Growth stages: 🌱 Seedling · 🌿 Sprout (1–3) · 🌳 Young Tree (4–7) · 🌲 Mature Tree (8+).
-        Only written updates affect growth.
-      </p>
-    </aside>
-  </div>
-
-  <!-- Section 4: Photo memory gallery -->
-  <div class="card" style="margin-top: var(--space-5);">
-    <div class="section-title">
-      <h2>Photo memories</h2>
-      <a class="btn btn--ghost btn--sm" href="{{ url_for('upload_photo', plant_id=plant.id) }}">＋ Photo</a>
-    </div>
-
-    {% if plant.photos %}
-      <div class="gallery">
-        {% for photo in plant.photos %}
-          <figure>
-            <img src="{{ url_for('static', filename=photo.image_path) }}"
-                 data-zoom="{{ url_for('static', filename=photo.image_path) }}"
-                 alt="{{ photo.caption or 'Photo memory' }}"
-                 loading="lazy">
-            {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
-          </figure>
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="empty empty--inline">
-        <span class="empty__emoji">🖼</span>
-        <p class="muted" style="margin:0 0 16px;">No photo memories added yet.</p>
-        <a class="btn btn--secondary btn--sm" href="{{ url_for('upload_photo', plant_id=plant.id) }}">Upload a photo</a>
-      </div>
-    {% endif %}
-  </div>
-
-  <!-- Delete confirmation modal -->
-  <div class="modal" id="delete-modal" aria-hidden="true">
-    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="del-title">
-      <h3 id="del-title">Delete “{{ plant.title }}”?</h3>
-      <p class="muted">This permanently removes the plant along with its
-        {{ plant.update_count }} update{{ '' if plant.update_count == 1 else 's' }} and
-        {{ plant.photo_count }} photo memor{{ 'y' if plant.photo_count == 1 else 'ies' }}.
-        This cannot be undone.</p>
-      <form method="post" action="{{ url_for('delete_plant', plant_id=plant.id) }}">
-        {{ update_form.csrf_token }}
-        <div class="modal__actions">
-          <button type="button" class="btn btn--secondary" data-cancel-delete>Cancel</button>
-          <button type="submit" class="btn btn--danger">Delete plant</button>
-        </div>
-      </form>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal (Preserved Functionality) -->
+  <div class="modal" id="delete-modal" aria-hidden="true" role="dialog" aria-labelledby="delete-modal-title">
+    <div class="modal__box">
+      <h3 id="delete-modal-title">Remove “{{ plant.title }}”?</h3>
+      <p class="muted">This will permanently remove this plant, all {{ plant.update_count }} written updates, and {{ plant.photo_count }} photo memories from your garden. This cannot be undone.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--secondary" data-cancel-delete>Keep plant</button>
+        <form method="post" action="{{ url_for('delete_plant', plant_id=plant.id) }}">
+          <button type="submit" class="btn btn--danger">Delete permanently</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}

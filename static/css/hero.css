@@ -10,11 +10,12 @@
   margin: 0;
   font-family: var(--font);
   color: var(--ink-900);
-  /* warm cream canvas, like the reference */
-  background: #f3efe6;
+  /* aged paper canvas with grain */
+  background-color: #f6f1e3;
   background-image:
-    radial-gradient(1200px 600px at 80% -15%, #e7f0e4, transparent 60%),
-    radial-gradient(900px 520px at -10% 110%, #efe7d6, transparent 55%);
+    var(--grain),
+    radial-gradient(1200px 600px at 80% -15%, #e9f0df, transparent 60%),
+    radial-gradient(900px 520px at -10% 110%, #f0e6cf, transparent 55%);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -31,8 +32,9 @@
 }
 .hero-loader.done { opacity: 0; visibility: hidden; }
 .hero-loader__num {
+  font-family: var(--font-display);
   font-size: clamp(3rem, 12vw, 8rem);
-  font-weight: 700;
+  font-weight: 560;
   letter-spacing: -0.04em;
   color: var(--green-900);
 }
@@ -54,8 +56,10 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-weight: 700;
-  font-size: 1.0625rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
   color: var(--green-900);
   text-decoration: none;
 }
@@ -86,31 +90,39 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: var(--space-10) var(--space-7) var(--space-8);
+  justify-content: flex-start;
+  padding: clamp(96px, 13vh, 150px) var(--space-7) min(44vh, 420px);
   max-width: 1280px;
   margin: 0 auto;
 }
 .hero__eyebrow {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--green-600);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--earth-700);
   margin-bottom: var(--space-5);
 }
 
 /* Big display headline */
 .hero__title {
   margin: 0;
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  font-size: clamp(2.75rem, 11vw, 9.5rem);
-  color: var(--green-900);
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 560;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-size: clamp(2.6rem, 9.5vw, 8rem);
+  color: var(--ink-900);
 }
 .hero__title .line { display: block; overflow: hidden; }
-.hero__title .accent { color: var(--green-500); font-style: italic; font-weight: 600; }
+.hero__title .accent {
+  color: var(--green-600);
+  font-style: italic;
+  font-weight: 500;
+}
 
 /* Word-by-word wind entrance.
    Two nested elements so the entrance (inner) and the ongoing sway (wrapper)
@@ -177,10 +189,18 @@
               border-color var(--transition), color var(--transition);
 }
 .hero-btn:hover { text-decoration: none; transform: translateY(-2px); }
-.hero-btn--primary { background: var(--green-700); color: #fff; }
-.hero-btn--primary:hover { background: var(--green-900); }
+.hero-btn--primary {
+  background: var(--green-700);
+  color: #fdfbf1;
+  box-shadow: 3px 3px 0 rgba(31, 58, 38, 0.28);
+}
+.hero-btn--primary:hover {
+  background: var(--green-600);
+  box-shadow: 1px 1px 0 rgba(31, 58, 38, 0.28);
+  transform: translate(2px, 2px);
+}
 .hero-btn--ghost { border-color: var(--green-300); color: var(--green-900); }
-.hero-btn--ghost:hover { border-color: var(--green-700); background: rgba(76,140,99,0.06); }
+.hero-btn--ghost:hover { border-color: var(--green-700); background: rgba(79, 133, 90, 0.07); }
 
 /* Inline stats row */
 .hero__stats {
@@ -192,14 +212,18 @@
   border-top: 1px solid rgba(31,61,43,0.12);
 }
 .hero__stat .n {
+  font-family: var(--font-display);
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 700;
+  font-weight: 560;
   color: var(--green-900);
   line-height: 1;
 }
 .hero__stat .l {
-  font-size: 0.8125rem;
-  color: var(--ink-600);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-400);
   margin-top: var(--space-2);
 }
 
@@ -210,8 +234,7 @@
   z-index: 5;
   pointer-events: none;
   overflow: hidden;
-}
-.leaf {
+}.leaf {
   position: absolute;
   top: -8%;
   left: -8%;
@@ -245,6 +268,50 @@
   100% { opacity: 0; transform: translateX(130vw); }
 }
 
+/* =========================================================================
+   Living garden scene — parallax hills, sun glow, soil bed, and a row of
+   procedurally grown plants (rendered by plant-svg.js). Layers carry
+   data-depth for mouse parallax.
+   ========================================================================= */
+.hero-scene {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: min(44vh, 420px);
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+}
+.scene-sun {
+  position: absolute;
+  top: -34px; right: 9%;
+  width: 230px; height: 230px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 130, 0.75), rgba(255, 214, 130, 0) 62%);
+}
+.scene-hill { position: absolute; left: -4%; right: -4%; bottom: 0; }
+.scene-hill svg { display: block; width: 100%; height: auto; }
+.hill-far { bottom: 15%; }
+.hill-near { bottom: 7%; }
+.pollen { position: absolute; inset: 0; }
+.bed-strip {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 22%;
+  background: linear-gradient(180deg, #8a6b47, #6b5640 55%, #57452f);
+  border-radius: 50% 50% 0 0 / 26px 26px 0 0;
+}
+.scene-plants {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 7.5%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(6px, 3vw, 36px);
+}
+.scene-plant { width: clamp(56px, 8.5vw, 104px); }
+.scene-plant .plot { background: none; overflow: visible; }
+
 /* respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .wind-word, .word-sway, .hero__lead, .hero__actions, .hero__stats { animation: none !important; opacity: 1 !important; transform: none !important; }
@@ -256,10 +323,12 @@
 @media (max-width: 760px) {
   .hero-nav { padding: var(--space-4) var(--space-5); }
   .hero-nav__links { gap: var(--space-4); }
-  .hero { padding: var(--space-10) var(--space-5) var(--space-7); }
+  .hero { padding: clamp(88px, 12vh, 130px) var(--space-5) min(36vh, 330px); }
   .hero__stats { gap: var(--space-5) var(--space-6); }
+  .hero-scene { height: min(36vh, 330px); }
 }
 @media (max-width: 480px) {
   .hero-nav__links a:not(.hero-nav__cta) { display: none; }
   .hero__actions .hero-btn { width: 100%; justify-content: center; }
+  .scene-plant:nth-child(n+6) { display: none; }
 }

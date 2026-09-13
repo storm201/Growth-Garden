@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="100%" height="100%">
+  <g color="#54432c" stroke-linecap="round" stroke-linejoin="round" opacity="0.3">
+    <!-- Concentric Botanical Growth Rings / Cambium Geometry -->
+    <g transform="translate(180, 140)">
+      <circle cx="0" cy="0" r="48" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="6 3"/>
+      <circle cx="0" cy="0" r="38" fill="none" stroke="currentColor" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="26" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="4 2"/>
+      <circle cx="0" cy="0" r="14" fill="none" stroke="currentColor" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="4" fill="none" stroke="currentColor" stroke-width="0.7"/>
+      <line x1="-54" y1="0" x2="54" y2="0" stroke="currentColor" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <line x1="0" y1="-54" x2="0" y2="54" stroke="currentColor" stroke-width="0.4" stroke-dasharray="2 2"/>
+    </g>
+
+    <!-- Transverse Stem Anatomy Cross-Section Diagram -->
+    <g transform="translate(480, 100)">
+      <circle cx="0" cy="0" r="32" fill="none" stroke="currentColor" stroke-width="0.75"/>
+      <circle cx="0" cy="0" r="28" fill="none" stroke="currentColor" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <circle cx="0" cy="0" r="14" fill="none" stroke="currentColor" stroke-width="0.5"/>
+      <!-- Vascular Bundles around ring -->
+      <ellipse cx="0" cy="-21" rx="2.5" ry="4" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="15" cy="-15" rx="2.5" ry="4" transform="rotate(45 15 -15)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="21" cy="0" rx="2.5" ry="4" transform="rotate(90 21 0)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="15" cy="15" rx="2.5" ry="4" transform="rotate(135 15 15)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="0" cy="21" rx="2.5" ry="4" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="-15" cy="15" rx="2.5" ry="4" transform="rotate(-135 -15 15)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="-21" cy="0" rx="2.5" ry="4" transform="rotate(-90 -21 0)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <ellipse cx="-15" cy="-15" rx="2.5" ry="4" transform="rotate(-45 -15 -15)" fill="none" stroke="currentColor" stroke-width="0.6"/>
+    </g>
+
+    <!-- Hexagonal Plant Tissue Cell Lattice (Parenchyma) -->
+    <g transform="translate(800, 130)">
+      <path d="M 0 0 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M 24 0 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M 12 21 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M -12 21 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M 36 21 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M 24 42 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z
+               M 0 42 l 12 -7 l 12 7 l 0 14 l -12 7 l -12 -7 Z"
+            fill="none" stroke="currentColor" stroke-width="0.65"/>
+    </g>
+
+    <!-- Stamen / Anther Dissection & Pollen Grains -->
+    <g transform="translate(760, 430)">
+      <path d="M 0 30 Q -5 10 0 -5" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M -6 -12 C -6 -18 -2 -18 0 -14 C 2 -18 6 -18 6 -12 C 6 -4 2 -4 0 -8 C -2 -4 -6 -4 -6 -12 Z" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="26" cy="-10" r="3" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <circle cx="34" cy="-6" r="2.5" fill="none" stroke="currentColor" stroke-width="0.6"/>
+      <circle cx="28" cy="2" r="2.8" fill="none" stroke="currentColor" stroke-width="0.6"/>
+    </g>
+  </g>
+</svg>
