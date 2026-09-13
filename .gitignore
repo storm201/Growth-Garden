@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# User data (database + uploaded photos are created at runtime)
+instance/
+static/uploads/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini

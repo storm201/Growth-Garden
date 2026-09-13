@@ -22,20 +22,42 @@
   <meta name="twitter:image" content="{{ url_for('static', filename='og-image.png') }}">
 
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito+Sans:ital,wght@0,400..800;1,400&display=swap">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/garden.css') }}">
 </head>
 <body>
   <header class="topbar">
     <div class="topbar__inner">
       <a class="brand" href="{{ url_for('dashboard') }}">
-        <span class="leaf">🌿</span>
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13C8 13 5 10.5 5 7c4 0 7 2.5 7 6z"/><path d="M12 10c3.3 0 5.8-2 5.8-4.9C14.5 5.1 12 7 12 10z"/></svg>
         <span>Growth Garden
           <small>Tend your progress, one update at a time</small>
         </span>
       </a>
-      <a class="btn btn--primary btn--sm" href="{{ url_for('create_plant') }}">＋ New plant</a>
+      <div class="topbar__actions">
+        <a class="btn btn--ghost btn--sm" href="{{ url_for('home') }}">
+          <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>
+          Home
+        </a>
+        <a class="btn btn--primary btn--sm" href="{{ url_for('create_plant') }}">＋ New plant</a>
+      </div>
     </div>
   </header>
+
+  <!-- Dense Botanical Blueprint / Vintage Field-Journal Background Layer -->
+  <div class="botanical-blueprint-backdrop" aria-hidden="true">
+    <div class="blueprint-layer blueprint-layer--master"></div>
+    <div class="blueprint-layer blueprint-layer--left"></div>
+    <div class="blueprint-layer blueprint-layer--right"></div>
+    <div class="blueprint-layer blueprint-layer--notes"></div>
+    <div class="blueprint-vignette"></div>
+  </div>
+
+  <!-- Ambient floating motes -->
+  <div class="spores" id="spores" aria-hidden="true"></div>
 
   <main class="page">
     <div class="container">
@@ -66,6 +88,8 @@
     <img src="" alt="">
   </div>
 
+  <script src="{{ url_for('static', filename='js/plant-svg.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/garden.js') }}"></script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>

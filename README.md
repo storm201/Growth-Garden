@@ -7,7 +7,7 @@ Instead of tracking progress through spreadsheets, checklists, or productivity d
 As you continue documenting your journey, plants evolve from tiny seedlings into mature trees, creating a visual representation of your progress over time.
 
 Built with Flask, SQLite, SQLAlchemy, and handcrafted CSS, Growth Garden is designed to be peaceful, personal, and distraction-free.
-![alt text](image-1.png)
+![Growth Garden screenshot](image.png)
 ---
 
 ## ✨ Why Growth Garden?
@@ -161,7 +161,15 @@ The result feels closer to a digital journal than a traditional productivity app
 
 ## 🚀 Running Locally
 
-### Create Virtual Environment
+### One-click (Windows)
+
+Double-click **`run.bat`** — it finds Python, installs everything on first run, starts the server, and opens your browser automatically.
+
+> Requires Python 3 (install from [python.org](https://www.python.org/downloads/) and tick **"Add Python to PATH"**).
+
+### Manual setup
+
+#### Create Virtual Environment
 
 ```bash
 python -m venv .venv

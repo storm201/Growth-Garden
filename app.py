@@ -100,6 +100,7 @@ def register_routes(app):
 
     # ---- Dashboard ----------------------------------------------------------
     @app.route("/garden")
+    @app.route("/dashboard")
     def dashboard():
         beds = ordered_beds()
         all_plants = Plant.query.all()
@@ -137,7 +138,14 @@ def register_routes(app):
             if requested:
                 form.garden_bed_id.data = requested
 
-        return render_template("create_plant.html", form=form)
+        # Optional: a real potting-bench photo at static/img/create-bg.jpg
+        # replaces the illustrated scene automatically.
+        bg_path = os.path.join(BASE_DIR, "static", "img", "create-bg.jpg")
+        has_bg = os.path.exists(bg_path)
+
+        return render_template(
+            "create_plant.html", form=form, has_bg_image=has_bg
+        )
 
     # ---- Plant detail -------------------------------------------------------
     @app.route("/plant/<int:plant_id>")

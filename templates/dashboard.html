@@ -15,26 +15,26 @@
   <!-- Statistics -->
   <section class="stats" aria-label="Garden statistics">
     <div class="stat">
-      <div class="stat__value">{{ stats.plants }}</div>
+      <div class="stat__value" data-countup="{{ stats.plants }}">{{ stats.plants }}</div>
       <div class="stat__label">Total plants</div>
     </div>
     <div class="stat">
-      <div class="stat__value">{{ stats.updates }}</div>
+      <div class="stat__value" data-countup="{{ stats.updates }}">{{ stats.updates }}</div>
       <div class="stat__label">Updates written</div>
     </div>
     <div class="stat">
-      <div class="stat__value">{{ stats.photos }}</div>
+      <div class="stat__value" data-countup="{{ stats.photos }}">{{ stats.photos }}</div>
       <div class="stat__label">Photo memories</div>
     </div>
     <div class="stat">
-      <div class="stat__value">{{ stats.fully_grown }}</div>
+      <div class="stat__value" data-countup="{{ stats.fully_grown }}">{{ stats.fully_grown }}</div>
       <div class="stat__label">Fully grown 🌲</div>
     </div>
   </section>
 
   {% if stats.plants == 0 %}
     <div class="empty">
-      <span class="empty__emoji">🌱</span>
+      <div class="plot plot--bare" data-plot data-seed="7" data-updates="0" aria-hidden="true"></div>
       <h2>Your garden is empty. Plant your first seed.</h2>
       <p class="muted">Choose a garden bed, give your plant a name, and start tracking your journey.</p>
       <a class="btn btn--primary" href="{{ url_for('create_plant') }}">Plant your first seed</a>

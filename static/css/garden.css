@@ -1,0 +1,1193 @@
+/* =========================================================================
+   Growth Garden — Living Digital Greenhouse & Immersion Layer
+   ========================================================================= */
+
+/* ---- Ambient spores / pollen motes ---- */
+.spores {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mote {
+  position: absolute;
+  bottom: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffdf2, rgba(255, 248, 220, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* =========================================================================
+   1. GREENHOUSE PAGE NAVIGATION & SHELL
+   ========================================================================= */
+.page:has(.greenhouse-page) > .container {
+  max-width: 1340px;
+  padding: 0 clamp(16px, 2.5vw, 36px);
+}
+
+.greenhouse-page {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 0 var(--space-9);
+}
+
+.greenhouse-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-3) 0 var(--space-5);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px dashed var(--line);
+}
+
+.nav-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--green-900);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 253, 244, 0.85);
+  border: 1px solid var(--line);
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.nav-back-link:hover {
+  background: var(--green-050);
+  border-color: var(--green-300);
+  color: var(--green-700);
+  text-decoration: none;
+  transform: translateX(-2px);
+}
+
+.nav-meta-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: 0.84rem;
+  color: var(--ink-600);
+}
+
+.bed-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(46, 86, 54, 0.08);
+  border: 1px solid rgba(46, 86, 54, 0.22);
+  color: var(--green-900);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.nav-meta-dot {
+  color: var(--line);
+  font-weight: bold;
+}
+
+/* =========================================================================
+   2. MAIN GREENHOUSE LAYOUT (ORGANIC ASYMMETRY)
+   ========================================================================= */
+.greenhouse-layout {
+  display: grid;
+  grid-template-columns: minmax(380px, 1.12fr) minmax(380px, 1.25fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+/* =========================================================================
+   3. THE LIVING CENTERPIECE BOTANICAL SCENE
+   ========================================================================= */
+.greenhouse-centerpiece {
+  position: sticky;
+  top: 76px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.botanical-scene {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(255, 238, 195, 0.45), transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(220, 235, 215, 0.35), transparent 65%),
+    linear-gradient(175deg, #f7f2e4 0%, #efe7d3 50%, #e5dbc0 100%);
+  border: 1px solid rgba(230, 221, 196, 0.95);
+  box-shadow:
+    0 18px 48px rgba(60, 50, 20, 0.12),
+    0 2px 6px rgba(60, 50, 20, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  isolation: isolate;
+}
+
+/* Soft atmospheric sunlight shaft */
+.sunlight-shaft {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+.shaft-beam {
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 140%;
+  height: 90%;
+  transform: rotate(-32deg);
+  pointer-events: none;
+  opacity: 0.45;
+}
+.beam-1 {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 248, 220, 0.5) 50%, transparent 100%);
+  animation: beam-shimmer 9s ease-in-out infinite alternate;
+}
+.beam-2 {
+  top: -20%;
+  right: -30%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 235, 175, 0.3) 40%, transparent 80%);
+  animation: beam-shimmer 12s ease-in-out 3s infinite alternate;
+}
+
+@keyframes beam-shimmer {
+  0% { opacity: 0.3; transform: rotate(-32deg) translateY(0); }
+  100% { opacity: 0.65; transform: rotate(-30deg) translateY(12px); }
+}
+
+/* Window shadow overlay effect */
+.window-shadow-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background-image: radial-gradient(circle at 85% 15%, transparent 40%, rgba(90, 75, 45, 0.08) 100%);
+  opacity: 0.6;
+}
+
+/* Ambient dust motes inside botanical scene */
+.scene-dust-motes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Living plant stage viewport */
+.living-plant-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 1;
+}
+
+.plant-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 12px 32px rgba(50, 40, 15, 0.15),
+    0 1px 3px rgba(50, 40, 15, 0.08);
+}
+
+.living-plant-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.2, 0.8, 0.25, 1), opacity 500ms ease;
+  will-change: transform, opacity;
+}
+
+/* Micro-sway living animation on plant */
+@media (prefers-reduced-motion: no-preference) {
+  .living-plant-img {
+    animation: plant-breathe 7.5s ease-in-out infinite alternate;
+    transform-origin: 50% 90%;
+  }
+  @keyframes plant-breathe {
+    0% { transform: scale(1) rotate(-0.3deg); }
+    50% { transform: scale(1.008) rotate(0.4deg); }
+    100% { transform: scale(1.004) rotate(-0.2deg); }
+  }
+}
+
+.plant-img-fade {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Floating Stage Badge */
+.floating-stage-badge {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px 8px 12px;
+  background: rgba(255, 253, 245, 0.92);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(230, 221, 196, 0.95);
+  border-radius: 999px;
+  box-shadow:
+    0 8px 24px rgba(60, 50, 20, 0.12),
+    0 2px 4px rgba(60, 50, 20, 0.06);
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+.floating-stage-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(60, 50, 20, 0.16);
+}
+
+.stage-badge-icon {
+  font-size: 1.45rem;
+  line-height: 1;
+  flex: none;
+}
+.stage-badge-text {
+  display: flex;
+  flex-direction: column;
+}
+.stage-badge-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-400);
+  line-height: 1.1;
+}
+.stage-badge-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--green-900);
+  line-height: 1.2;
+}
+.stage-badge-progress {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--green-050);
+  color: var(--green-700);
+  border: 1px solid var(--green-300);
+  margin-left: 2px;
+}
+
+/* Time-Lapse Mode HUD */
+.timelapse-hud {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.timelapse-hud.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.timelapse-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(31, 58, 38, 0.92);
+  color: #fffef6;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  font-size: 0.85rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+}
+.timelapse-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #6fe48a;
+  box-shadow: 0 0 8px #6fe48a;
+  animation: pulse-dot 1.2s infinite ease-in-out;
+}
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* Watering FX Container */
+.watering-fx-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+.water-spray-drop {
+  position: absolute;
+  top: -10px;
+  width: 4px;
+  height: 16px;
+  border-radius: 50% 50% 40% 40%;
+  background: linear-gradient(180deg, #d3ebff 0%, #68b4f8 100%);
+  opacity: 0;
+  animation: drop-fall 750ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes drop-fall {
+  0% { transform: translateY(0) scaleY(1); opacity: 0; }
+  20% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { transform: translateY(320px) scaleY(0.7); opacity: 0; }
+}
+
+/* Wooden sill edge surface */
+.wooden-sill-edge {
+  position: relative;
+  height: 16px;
+  background: linear-gradient(180deg, #c7ad89 0%, #a88d67 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 2px 4px rgba(70, 50, 20, 0.25);
+}
+.sill-ambient-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(180deg, transparent 0%, rgba(50, 40, 15, 0.2) 100%);
+}
+
+/* =========================================================================
+   4. PRIMARY WATERING & CENTERPIECE ACTIONS
+   ========================================================================= */
+.centerpiece-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.btn-water-primary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: linear-gradient(145deg, var(--green-700) 0%, var(--green-900) 100%);
+  color: #fefdf7;
+  border: 1px solid var(--green-900);
+  border-radius: 20px;
+  box-shadow:
+    0 10px 24px rgba(31, 58, 38, 0.28),
+    0 2px 4px rgba(31, 58, 38, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+.btn-water-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 32px rgba(31, 58, 38, 0.35),
+    0 3px 6px rgba(31, 58, 38, 0.18);
+  filter: brightness(1.05);
+  text-decoration: none;
+  color: #fff;
+}
+.btn-water-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(31, 58, 38, 0.25);
+}
+
+.btn-water-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  flex: none;
+  transition: transform 300ms ease;
+}
+.btn-water-primary:hover .btn-water-icon {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.btn-water-text {
+  display: flex;
+  flex-direction: column;
+}
+.btn-water-text strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.btn-water-text small {
+  font-size: 0.8125rem;
+  color: var(--green-100);
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Secondary Actions Cluster */
+.centerpiece-subactions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-subaction {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-900);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(60, 50, 20, 0.05);
+  transition: all var(--transition);
+}
+.btn-subaction:hover {
+  background: var(--green-050);
+  border-color: var(--green-300);
+  color: var(--green-900);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.btn-subaction:active { transform: translateY(1px); }
+
+.btn-subaction--danger {
+  flex: 0 0 auto;
+  color: var(--danger-700);
+}
+.btn-subaction--danger:hover {
+  background: var(--danger-100);
+  border-color: #e5b4ad;
+  color: var(--danger-700);
+}
+
+/* =========================================================================
+   5. RIGHT ORBIT: EDITORIAL IDENTITY & BOTANICAL OBSERVATIONS
+   ========================================================================= */
+.greenhouse-orbit {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.5vw, 36px);
+}
+
+/* Plant Identity Card */
+.botanical-identity-card {
+  padding-bottom: var(--space-2);
+}
+.identity-header {
+  margin-bottom: var(--space-3);
+}
+.botanical-taxonomy {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--earth-700);
+  margin-bottom: 4px;
+}
+.botanical-title {
+  font-size: clamp(2rem, 3.5vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--green-900);
+  margin: 0;
+  letter-spacing: -0.02em;
+  background-image: none;
+  padding-bottom: 0;
+}
+.botanical-notes {
+  margin-top: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: rgba(255, 253, 245, 0.7);
+  border-left: 3px solid var(--earth-500);
+  border-radius: 0 16px 16px 0;
+}
+.botanical-description {
+  margin: 0;
+  font-size: 1.02rem;
+  color: var(--ink-900);
+  line-height: 1.6;
+}
+
+/* Botanical Observations Node */
+.botanical-observation-node {
+  background: #fffdf7;
+  border: 1px solid rgba(230, 221, 196, 0.95);
+  border-radius: 24px 18px 24px 20px;
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 2.5vw, 28px);
+  position: relative;
+}
+.botanical-observation-node::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed rgba(210, 198, 170, 0.5);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.obs-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.obs-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--earth-700);
+}
+.obs-stage-text {
+  font-size: 0.88rem;
+  color: var(--green-700);
+}
+.obs-stage-text strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+/* 8-Stage Growth Node Tracker */
+.growth-ring-meter {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-2);
+  background: var(--sand-050);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+.ring-nodes {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+.ring-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+  transition: transform var(--transition);
+}
+.ring-node:hover { transform: scale(1.1); }
+
+.node-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fffdf5;
+  border: 2px solid var(--line);
+  box-shadow: 0 1px 3px rgba(60, 50, 20, 0.08);
+  transition: all 300ms ease;
+  position: relative;
+}
+.ring-node--active .node-dot {
+  background: var(--green-500);
+  border-color: var(--green-700);
+  box-shadow: 0 0 0 2px var(--green-100), 0 2px 5px rgba(46, 86, 54, 0.3);
+}
+.ring-node--active .node-dot::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #fdfef7;
+}
+
+.ring-node--next .node-dot {
+  border-color: var(--green-500);
+  border-style: dashed;
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 133, 90, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(79, 133, 90, 0.2); }
+}
+
+.node-num {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--ink-400);
+}
+.ring-node--active .node-num {
+  color: var(--green-900);
+}
+
+/* Narrative Observation */
+.obs-narrative {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(46, 86, 54, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(46, 86, 54, 0.12);
+}
+.narrative-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink-900);
+  line-height: 1.5;
+}
+.narrative-text span {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-600);
+  font-size: 0.85rem;
+}
+
+/* Vitality Metrics Grid */
+.vitality-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.vitality-item {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vitality-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-400);
+}
+.vitality-val {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+.vitality-val--green {
+  font-size: 0.95rem;
+  color: var(--green-700);
+}
+
+/* =========================================================================
+   6. BOTANICAL VINE TIMELINE ("LIFE MOMENTS")
+   ========================================================================= */
+.botanical-timeline-node {
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 2.5vw, 28px);
+}
+
+.timeline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--line);
+}
+.timeline-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline-vine-icon { font-size: 1.25rem; }
+.timeline-section-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--green-900);
+}
+.timeline-add-link {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--green-700);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--green-050);
+  border: 1px solid var(--green-300);
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.timeline-add-link:hover {
+  background: var(--green-100);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.botanical-vine-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+  position: relative;
+}
+.botanical-vine-list::before {
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--green-500) 0%, var(--green-300) 70%, #d8caa5 100%);
+  border-radius: 999px;
+}
+
+.vine-event-item {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding-bottom: var(--space-6);
+}
+.vine-event-item:last-child {
+  padding-bottom: 0;
+}
+
+.vine-node-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fffdf5;
+  border: 2px solid var(--green-500);
+  box-shadow: 0 0 0 4px #fffdf7, 0 2px 6px rgba(46, 86, 54, 0.2);
+  display: grid;
+  place-items: center;
+  flex: none;
+  z-index: 2;
+  transition: transform var(--transition);
+}
+.vine-event-item:hover .vine-node-marker {
+  transform: scale(1.15);
+  border-color: var(--green-700);
+}
+.vine-node-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.vine-event-content {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 2px 8px rgba(60, 50, 20, 0.04);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.vine-event-item:hover .vine-event-content {
+  border-color: var(--green-300);
+  box-shadow: 0 4px 14px rgba(60, 50, 20, 0.08);
+}
+
+.event-meta-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.event-type-badge {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink-900);
+}
+.event-timestamp {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--earth-700);
+  letter-spacing: 0.03em;
+}
+.event-body-text {
+  margin: 6px 0 0;
+  color: var(--ink-600);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.event-photo-preview {
+  margin-top: 10px;
+}
+.event-photo-preview img {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  cursor: zoom-in;
+  transition: transform var(--transition), opacity var(--transition);
+}
+.event-photo-preview img:hover {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+
+/* =========================================================================
+   7. BOTANICAL FIELD SCRAPBOOK PHOTO MEMORIES
+   ========================================================================= */
+.botanical-scrapbook-node {
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 2.5vw, 28px);
+}
+
+.scrapbook-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--line);
+}
+.scrapbook-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scrapbook-icon { font-size: 1.25rem; }
+.scrapbook-section-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--green-900);
+}
+.scrapbook-add-btn {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--green-700);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--green-050);
+  border: 1px solid var(--green-300);
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.scrapbook-add-btn:hover {
+  background: var(--green-100);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.scrapbook-polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-2);
+}
+
+.polaroid-frame {
+  margin: 0;
+  position: relative;
+  background: #fffef9;
+  padding: 12px 12px 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(220, 210, 185, 0.85);
+  box-shadow:
+    0 4px 14px rgba(60, 50, 20, 0.08),
+    0 1px 3px rgba(60, 50, 20, 0.05);
+  transform: rotate(var(--rotation, 0deg));
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 260ms ease, z-index 0ms;
+  z-index: 1;
+}
+.polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow:
+    0 16px 36px rgba(60, 50, 20, 0.16),
+    0 2px 6px rgba(60, 50, 20, 0.08);
+  z-index: 10;
+}
+
+/* Translucent Washi tape on photo frame */
+.washi-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 54px;
+  height: 18px;
+  background: rgba(235, 222, 185, 0.75);
+  border-left: 1px dashed rgba(120, 95, 60, 0.25);
+  border-right: 1px dashed rgba(120, 95, 60, 0.25);
+  box-shadow: 0 1px 3px rgba(60, 50, 20, 0.1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.polaroid-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 2px;
+  cursor: zoom-in;
+  transition: filter var(--transition);
+}
+.polaroid-frame:hover .polaroid-photo {
+  filter: brightness(1.03);
+}
+
+.polaroid-caption {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.84rem;
+  color: var(--ink-900);
+  line-height: 1.35;
+  text-align: center;
+  word-break: break-word;
+}
+.polaroid-caption--muted {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--ink-400);
+}
+
+/* Empty Scrapbook Canvas */
+.scrapbook-empty-canvas {
+  padding: var(--space-6) var(--space-4);
+  background: rgba(248, 243, 230, 0.6);
+  border: 1px dashed rgba(180, 160, 120, 0.6);
+  border-radius: 18px;
+  text-align: center;
+}
+.empty-polaroid-sketch {
+  max-width: 320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.empty-camera-emoji {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.empty-scrapbook-text {
+  margin: var(--space-1) 0 var(--space-3);
+  font-size: 0.95rem;
+  color: var(--ink-900);
+  font-family: var(--font-display);
+}
+
+/* =========================================================================
+   8. LEGACY PRESERVATION: CARDS, LIVING PLOTS & POTTING BENCH
+   ========================================================================= */
+.plot {
+  position: relative;
+  aspect-ratio: 22 / 25;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background:
+    radial-gradient(130px 95px at 82% 8%, rgba(255, 222, 150, 0.4), transparent 70%),
+    linear-gradient(180deg, #f2f5e7 0%, #f9f6ea 58%, #f0e9d3 100%);
+  isolation: isolate;
+}
+.plot--bare { background: none; overflow: visible; }
+.plot__stage {
+  position: absolute;
+  left: 8px; top: 8px; z-index: 2;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green-900);
+  background: rgba(255, 253, 244, 0.88);
+  border: 1px solid var(--line);
+  padding: 3px 9px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+.plot--bare .plot__stage { display: none; }
+.plot-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.plant-card { overflow: hidden; }
+.card-plot {
+  display: block;
+  margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) var(--space-4);
+}
+.card-plot .plot { border-radius: 0; }
+.card-plot .plot-svg { transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.plant-card:hover .card-plot .plot-svg { transform: scale(1.05); }
+
+.stageline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.mini-progress {
+  height: 4px;
+  background: var(--green-100);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.mini-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-700));
+}
+
+.meta-ico {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+
+.form-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--space-5);
+  align-items: start;
+}
+.preview-card .plot {
+  margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) var(--space-4);
+  border-radius: var(--radius) var(--radius) 0 0;
+  aspect-ratio: 22 / 16;
+}
+
+/* Create plant card & layout */
+.create-container {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.create-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius) var(--radius) var(--radius) 22px;
+  box-shadow: var(--shadow);
+  padding: clamp(24px, 3.5vw, 36px);
+}
+.create-card .form, .create-form { max-width: none; }
+.create-card .field:last-of-type { margin-bottom: var(--space-4); }
+.create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--line);
+}
+
+/* =========================================================================
+   9. RESPONSIVE BREAKPOINTS
+   ========================================================================= */
+@media (max-width: 1040px) {
+  .greenhouse-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  .greenhouse-centerpiece {
+    position: static;
+    max-width: 580px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .greenhouse-page {
+    padding-inline: var(--space-3);
+  }
+  .botanical-scene {
+    border-radius: 20px;
+  }
+  .botanical-title {
+    font-size: 1.85rem;
+  }
+  .vitality-metrics {
+    grid-template-columns: 1fr;
+  }
+  .ring-nodes {
+    gap: 4px;
+  }
+  .node-dot {
+    width: 14px;
+    height: 14px;
+  }
+  .node-num {
+    font-size: 0.62rem;
+  }
+  .btn-water-primary {
+    padding: 14px 18px;
+    gap: 12px;
+  }
+  .btn-water-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
+  }
+  .btn-water-text strong {
+    font-size: 1rem;
+  }
+  .centerpiece-subactions {
+    flex-wrap: wrap;
+  }
+  .btn-subaction {
+    flex: 1 1 45%;
+  }
+  .scrapbook-polaroid-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-4);
+  }
+}

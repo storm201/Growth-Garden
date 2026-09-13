@@ -11,19 +11,32 @@
     <a class="btn btn--ghost" href="{{ url_for('plant_detail', plant_id=plant.id) }}">← Back to plant</a>
   </div>
 
-  <div class="card form">
-    <form method="post" novalidate data-pending="Watering…">
-      {{ form.hidden_tag() }}
-      <div class="field">
-        {{ form.content.label }}
-        <p class="hint">What progress did you make, or what's on your mind?</p>
-        {{ form.content(placeholder="Today I…") }}
-        {% for err in form.content.errors %}<div class="error">{{ err }}</div>{% endfor %}
-      </div>
-      <div class="btn-row">
-        <button type="submit" class="btn btn--primary" data-pending="Watering…">💧 Water the plant</button>
-        <a class="btn btn--secondary" href="{{ url_for('plant_detail', plant_id=plant.id) }}">Cancel</a>
-      </div>
-    </form>
+  <div class="form-split">
+    <div class="card form">
+      <form method="post" novalidate data-pending="Watering…">
+        {{ form.hidden_tag() }}
+        <div class="field">
+          {{ form.content.label }}
+          <p class="hint">What progress did you make, or what's on your mind?</p>
+          {{ form.content(placeholder="Today I…") }}
+          {% for err in form.content.errors %}<div class="error">{{ err }}</div>{% endfor %}
+        </div>
+        <div class="btn-row">
+          <button type="submit" class="btn btn--primary" data-pending="Watering…">💧 Water the plant</button>
+          <a class="btn btn--secondary" href="{{ url_for('plant_detail', plant_id=plant.id) }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+    <aside class="card preview-card">
+      <div class="plot" id="preview-plot" aria-hidden="true"
+           data-plot data-seed="{{ plant.id }}"
+           data-updates="{{ [plant.update_count + 1, 99] | min }}"></div>
+      <h3 style="margin:0 0 var(--space-1);">After your next water</h3>
+      <p class="tiny muted" style="margin:0;">
+        This is how “{{ plant.title }}” will look once today's update is saved.
+        Start typing to see it being watered.
+      </p>
+    </aside>
   </div>
 {% endblock %}

@@ -17,7 +17,11 @@
   <meta name="twitter:image" content="{{ url_for('static', filename='og-image.png') }}">
 
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito+Sans:ital,wght@0,400..800;1,400&display=swap">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/garden.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/hero.css') }}">
 </head>
 <body class="hero-page">
@@ -27,13 +31,23 @@
     <div class="hero-loader__num" data-count>0<span>%</span></div>
   </div>
 
+  <!-- Dense Botanical Blueprint / Vintage Field-Journal Background Layer -->
+  <div class="botanical-blueprint-backdrop" aria-hidden="true">
+    <div class="blueprint-layer blueprint-layer--master"></div>
+    <div class="blueprint-layer blueprint-layer--left"></div>
+    <div class="blueprint-layer blueprint-layer--right"></div>
+    <div class="blueprint-layer blueprint-layer--notes"></div>
+    <div class="blueprint-vignette"></div>
+  </div>
+
   <!-- Wind / leaves layer -->
   <div class="wind-layer" aria-hidden="true"></div>
 
   <!-- Nav -->
   <nav class="hero-nav">
     <a class="hero-nav__brand" href="{{ url_for('home') }}">
-      <span>🌿</span> Growth Garden
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13C8 13 5 10.5 5 7c4 0 7 2.5 7 6z"/><path d="M12 10c3.3 0 5.8-2 5.8-4.9C14.5 5.1 12 7 12 10z"/></svg>
+      Growth Garden
     </a>
     <div class="hero-nav__links">
       <a href="{{ url_for('dashboard') }}">Garden</a>
@@ -80,6 +94,39 @@
     </div>
   </header>
 
+  <!-- Living garden scene (parallax layers + procedurally grown plants) -->
+  <div class="hero-scene" aria-hidden="true">
+    <span class="scene-sun" data-depth="6"></span>
+
+    <div class="scene-hill hill-far" data-depth="14">
+      <svg viewBox="0 0 1440 190" preserveAspectRatio="none">
+        <path fill="#dee8cf" d="M0 190 L0 122 Q 170 58 360 96 Q 540 132 720 86 Q 900 44 1080 98 Q 1260 148 1440 78 L1440 190 Z"/>
+      </svg>
+    </div>
+
+    <div class="scene-hill hill-near" data-depth="24">
+      <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
+        <path fill="#cbdcb2" d="M0 150 L0 88 Q 230 28 470 64 Q 710 100 950 56 Q 1190 16 1440 62 L1440 150 Z"/>
+      </svg>
+    </div>
+
+    <div class="pollen"></div>
+
+    <div class="bed-strip" data-depth="30"></div>
+
+    <div class="scene-plants" data-depth="20">
+      {% for i in range(7) %}
+        <div class="scene-plant">
+          <div class="plot plot--bare"
+               data-plot data-seed="{{ i + 11 }}"
+               data-updates="{{ (i * 8 / 6) | round | int }}"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/plant-svg.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/garden.js') }}"></script>
   <script src="{{ url_for('static', filename='js/hero.js') }}"></script>
 </body>
 </html>

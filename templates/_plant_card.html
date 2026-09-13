@@ -1,15 +1,34 @@
-<article class="plant-card">
+<article class="plant-card" data-tilt>
+  <a class="card-plot" href="{{ url_for('plant_detail', plant_id=plant.id) }}"
+     aria-label="Open {{ plant.title }}">
+    <div class="plot" data-plot data-seed="{{ plant.id }}" data-updates="{{ plant.update_count }}">
+      <span class="plot__stage">{{ plant.growth_stage }}</span>
+    </div>
+  </a>
+
   <div class="plant-card__top">
-    <div class="plant-card__emoji" aria-hidden="true">{{ plant.growth_emoji }}</div>
-    <div>
-      <h3 class="plant-card__title">{{ plant.title }}</h3>
-      <span class="plant-card__stage">{{ plant.growth_stage }}</span>
+    <div style="flex:1;">
+      <h3 class="plant-card__title">
+        <a href="{{ url_for('plant_detail', plant_id=plant.id) }}">{{ plant.title }}</a>
+      </h3>
+      <div class="stageline">
+        <span class="plant-card__stage">{{ plant.growth_emoji }} {{ plant.growth_stage }}</span>
+        <span class="tiny muted">{{ plant.growth_progress }}%</span>
+      </div>
     </div>
   </div>
 
+  <div class="mini-progress" aria-hidden="true"><i style="width: {{ plant.growth_progress }}%;"></i></div>
+
   <div class="plant-card__meta">
-    <span title="Updates">💧 {{ plant.update_count }} update{{ '' if plant.update_count == 1 else 's' }}</span>
-    <span title="Photo memories">🖼 {{ plant.photo_count }} photo{{ '' if plant.photo_count == 1 else 's' }}</span>
+    <span title="Updates">
+      <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3.5 4.2 6 7.2 6 10a6 6 0 1 1-12 0c0-2.8 2.5-5.8 6-10z"/></svg>
+      {{ plant.update_count }} update{{ '' if plant.update_count == 1 else 's' }}
+    </span>
+    <span title="Photo memories">
+      <svg class="meta-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-9 8"/></svg>
+      {{ plant.photo_count }} photo{{ '' if plant.photo_count == 1 else 's' }}
+    </span>
   </div>
 
   <div class="plant-card__foot">
